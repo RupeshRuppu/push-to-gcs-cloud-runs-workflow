@@ -33,7 +33,7 @@ jobs:
       - name: build code
         run: yarn build
       - name: create compressed archive
-        run: tar -cJvf build.tar.xz dist/apps dist/fonts
+        run: tar -cJvf build.tar.xz public
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
