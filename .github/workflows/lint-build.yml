@@ -13,7 +13,7 @@ env:
   PROVIDER_ID: github-provider
   SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  BUCKET_NAME: code-base-assets
+  BUCKET_NAME:  webpack-zipped-assets
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
       - name: build code
         run: yarn build
       - name: create compressed archive
-        run: tar -cJvf build.tar.xz dist
+        run: tar -cJvf build.tar.xz dist/apps dist/fonts
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
