@@ -69,10 +69,15 @@ jobs:
 
       - name: execute cloud run job
         run: |
+         set -euo pipefail
+         echo "🚀 Triggering Cloud Run job..."
+
          gcloud run jobs execute unzip-and-copy-job \
-            --region asia-south1 \
-            --update-env-vars \
-            ARCHIVE_NAME=${{ github.sha }}.tar.xz,\
-            SRC_BUCKET=webpack-zipped-assets,\
-            DEST_BUCKET=webpack-prod-assets \
-            --wait
+         --region asia-south1 \
+         --update-env-vars \
+         ARCHIVE_NAME=${{ github.sha }}.tar.xz,\
+         SRC_BUCKET=webpack-zipped-assets,\
+         DEST_BUCKET=webpack-prod-assets \
+         --wait
+
+         echo "✅ Cloud Run job completed successfully"
