@@ -27,11 +27,11 @@ jobs:
       #     node-version: 20
       #     cache: "yarn"
       - name: install dependencies
-        run: yarn install --frozen-lockfile
+        run: /home/ubuntu/.nvm/versions/node/v20.20.0/bin/yarn install --frozen-lockfile
       - name: lint code
-        run: yarn lint
+        run: /home/ubuntu/.nvm/versions/node/v20.20.0/bin/yarn lint
       - name: build code
-        run: yarn build
+        run: /home/ubuntu/.nvm/versions/node/v20.20.0/bin/yarn build
       - name: create compressed archive
         run: tar -cJvf build.tar.xz public
       - name: upload artifact
