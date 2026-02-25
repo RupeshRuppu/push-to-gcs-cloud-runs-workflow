@@ -17,7 +17,7 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
@@ -26,10 +26,6 @@ jobs:
         with:
           node-version: 20
           cache: "yarn"
-      - name: Enable and Prepare Yarn
-        run: |
-            corepack enable
-            corepack prepare yarn@stable --activate
       - name: install dependencies
         run: yarn install --frozen-lockfile
       - name: lint code
@@ -46,7 +42,7 @@ jobs:
   
   
   upload:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: download artifact
