@@ -26,8 +26,11 @@ jobs:
         with:
           node-version: 20
           cache: "yarn"
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Enable and Prepare Yarn
+        run: |
+            corepack enable
+            corepack prepare yarn@stable --activate
+
       - name: install dependencies
         run: yarn install --frozen-lockfile
       - name: lint code
