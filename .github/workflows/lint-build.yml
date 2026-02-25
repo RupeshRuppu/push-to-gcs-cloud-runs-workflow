@@ -21,17 +21,17 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-      # - name: setup nodejs
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-      #     cache: "yarn"
+      - name: setup nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
       - name: install dependencies
-        run: /home/ubuntu/.nvm/versions/node/v20.20.0/bin/yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
       - name: lint code
-        run: /home/ubuntu/.nvm/versions/node/v20.20.0/bin/yarn lint
+        run: yarn lint
       - name: build code
-        run: /home/ubuntu/.nvm/versions/node/v20.20.0/bin/yarn build
+        run: yarn build
       - name: create compressed archive
         run: tar -cJvf build.tar.xz public
       - name: upload artifact
