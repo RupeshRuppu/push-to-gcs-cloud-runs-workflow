@@ -21,11 +21,11 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-      - name: setup nodejs
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "yarn"
+      # - name: setup nodejs
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      #     cache: "yarn"
       - name: install dependencies
         run: yarn install --frozen-lockfile
       - name: lint code
