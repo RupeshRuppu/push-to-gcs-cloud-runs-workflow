@@ -26,6 +26,16 @@ jobs:
         with:
           node-version: 22
           cache: "yarn"
+      - name: Inspect OIDC token claims
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const token = await core.getIDToken();
+            const payload = JSON.parse(
+              Buffer.from(token.split('.')[1], 'base64url').toString()
+            );
+      
+            console.log(JSON.stringify(payload, null, 2));
       - name: install dependencies
         run: yarn install --frozen-lockfile
       - name: lint code
@@ -41,43 +51,43 @@ jobs:
           path: build.tar.xz
   
   
-  upload:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-archive
-      - name: authenticate to google cloud wif
-        uses: google-github-actions/auth@v2
-        env:
-          WIF_PROVIDER: projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.POOL_ID }}/providers/${{ env.PROVIDER_ID }}
-        with:
-          workload_identity_provider: ${{ env.WIF_PROVIDER }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
+  # upload:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - name: download artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: build-archive
+  #     - name: authenticate to google cloud wif
+  #       uses: google-github-actions/auth@v2
+  #       env:
+  #         WIF_PROVIDER: projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.POOL_ID }}/providers/${{ env.PROVIDER_ID }}
+  #       with:
+  #         workload_identity_provider: ${{ env.WIF_PROVIDER }}
+  #         service_account: ${{ env.SERVICE_ACCOUNT }}
 
-      - name: setup google sdk
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
+  #     - name: setup google sdk
+  #       uses: google-github-actions/setup-gcloud@v2
+  #       with:
+  #         project_id: ${{ env.PROJECT_ID }}
 
-      - name: upload to gcs bucket
-        run: |
-          gcloud storage cp build.tar.xz \
-          gs://${{ env.BUCKET_NAME }}/${{ github.sha }}.tar.xz
+  #     - name: upload to gcs bucket
+  #       run: |
+  #         gcloud storage cp build.tar.xz \
+  #         gs://${{ env.BUCKET_NAME }}/${{ github.sha }}.tar.xz
 
-      - name: execute cloud run job
-        run: |
-         set -euo pipefail
-         echo "🚀 Triggering Cloud Run job..."
+  #     - name: execute cloud run job
+  #       run: |
+  #        set -euo pipefail
+  #        echo "🚀 Triggering Cloud Run job..."
 
-         gcloud run jobs execute unzip-and-copy-job \
-         --region asia-south1 \
-         --update-env-vars \
-         ARCHIVE_NAME=${{ github.sha }}.tar.xz,\
-         SRC_BUCKET=webpack-zipped-assets,\
-         DEST_BUCKET=webpack-prod-assets \
-         --wait
+  #        gcloud run jobs execute unzip-and-copy-job \
+  #        --region asia-south1 \
+  #        --update-env-vars \
+  #        ARCHIVE_NAME=${{ github.sha }}.tar.xz,\
+  #        SRC_BUCKET=webpack-zipped-assets,\
+  #        DEST_BUCKET=webpack-prod-assets \
+  #        --wait
 
-         echo "✅ Cloud Run job completed successfully"
+  #        echo "✅ Cloud Run job completed successfully"
