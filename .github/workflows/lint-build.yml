@@ -82,7 +82,7 @@ jobs:
          set -euo pipefail
          echo "🚀 Triggering Cloud Run job..."
 
-         gcloud run jobs execute unzip-copy-job \
+         gcloud run jobs execute unzip-copy-job-1 \
          --region asia-south1 \
          --update-env-vars \
          ARCHIVE_NAME=${{ github.sha }}.tar.xz,\
