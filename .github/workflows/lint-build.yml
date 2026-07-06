@@ -9,8 +9,8 @@ permissions:
 
 env:
   PROJECT_NUMBER: ${{ secrets.PROJECT_NUMBER }}
-  POOL_ID: github-pool-2
-  PROVIDER_ID: github-provider
+  POOL_ID: github-pool-3
+  PROVIDER_ID: github-provider-3
   SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   BUCKET_NAME:  webpack-zipped-assets
