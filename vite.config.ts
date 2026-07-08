@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 
+/* webhook test - added comment*/
 export default defineConfig({
 	build: {
 		outDir: "public",
