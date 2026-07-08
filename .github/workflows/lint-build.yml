@@ -15,6 +15,7 @@ env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   BUCKET_NAME:  webpack-zipped-assets
 
+# build & deploy jobs defined here.
 jobs:
   build:
     runs-on: ubuntu-latest
