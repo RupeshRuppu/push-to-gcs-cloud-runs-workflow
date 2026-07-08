@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	build: {
 		outDir: "public",
+		assetsInlineLimit: 0,
 		rollupOptions: {
 			output: {
 				entryFileNames: "apps/[name].js",
